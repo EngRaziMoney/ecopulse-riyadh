@@ -2,7 +2,7 @@
 
 **Paint Riyadh's roofs white, or cover them with plants? A free tool that shows what helps, what it costs, and who should pay.**
 
-**Live demo:** https://YOUR-USERNAME.github.io/ecopulse-riyadh/
+**Live demo:** https://engrazimoney.github.io/ecopulse-riyadh/
 *(No sign-in, no install. It also works offline: download `index.html` and open it in any browser.)*
 
 ![EcoPulse Riyadh tool](assets/tool.png)
