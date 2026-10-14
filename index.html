@@ -1,0 +1,686 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}</style></head><body><title>EcoPulse Riyadh</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a question on top, three simple controls on the left, the answer on the right,
+   then "what it means for Saudi Arabia", then the sources. Teal = good, clay = heat/cost. */
+:root {
+  --bg: #F1F3F0; --panel: #FFFFFF; --fg: #18201D; --muted: #56615C; --line: #D9DED9;
+  --cool: #0E6F68; --cool-soft: #DCEFEC; --green: #4D7C2A; --green-soft: #E5F0DA;
+  --heat: #B4471B; --heat-soft: #F7E3D8; --warn: #946600; --warn-soft: #F6ECD2;
+  --font-display: "Chivo", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111614; --panel: #1A211E; --fg: #E6EBE8; --muted: #9AA6A0; --line: #2C3632;
+    --cool: #4CC2B6; --cool-soft: #16332F; --green: #94C46A; --green-soft: #1F2D16;
+    --heat: #F08A5D; --heat-soft: #3A2017; --warn: #E0B54A; --warn-soft: #33290F; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111614; --panel: #1A211E; --fg: #E6EBE8; --muted: #9AA6A0; --line: #2C3632;
+  --cool: #4CC2B6; --cool-soft: #16332F; --green: #94C46A; --green-soft: #1F2D16;
+  --heat: #F08A5D; --heat-soft: #3A2017; --warn: #E0B54A; --warn-soft: #33290F; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 40px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 20px; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.01em; }
+h2 { font-size: 19px; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--cool); }
+.eyebrow { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.src { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.src a { color: var(--muted); }
+.num { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--cool); outline-offset: 2px; }
+
+/* Header */
+.top { display: grid; gap: 10px; }
+.question { font-size: clamp(17px, 2.2vw, 20px); max-width: 62ch; }
+.question b { font-family: var(--font-display); }
+.how { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 4px 0 0; padding: 0; list-style: none; counter-reset: how; color: var(--muted); font-size: 14px; }
+.how li { counter-increment: how; display: flex; align-items: center; gap: 8px; }
+.how li::before { content: counter(how); display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--fg); color: var(--panel); font-family: var(--font-mono); font-size: 12px; }
+
+.context { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.ctx { background: var(--panel); padding: 14px 16px; display: grid; gap: 2px; min-width: 0; }
+.ctx b { font-family: var(--font-display); font-size: 26px; font-weight: 800; color: var(--heat); }
+
+/* Main */
+.main { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 880px) { .main { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; min-width: 0; }
+.panel > * { min-width: 0; }
+
+fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 8px; min-width: 0; }
+legend { font-family: var(--font-display); font-weight: 700; font-size: 16px; margin-bottom: 8px; padding: 0; }
+.step { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--fg); color: var(--panel); font-family: var(--font-mono); font-size: 12px; margin-right: 8px; vertical-align: 2px; }
+.choice { display: grid; gap: 6px; }
+.opt { display: grid; grid-template-columns: 10px 1fr; gap: 2px 10px; align-items: center; text-align: left; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--fg); font: inherit; cursor: pointer; }
+.opt:hover { border-color: var(--muted); }
+.opt[aria-pressed="true"] { border-color: var(--fg); box-shadow: inset 0 0 0 1px var(--fg); }
+.opt i { grid-row: span 2; width: 10px; height: 100%; min-height: 30px; border-radius: 3px; background: var(--line); }
+.opt i.hot { background: var(--heat); }
+.opt i.mid { background: var(--heat-soft); }
+.opt i.cool { background: var(--cool); }
+.opt i.green { background: var(--green); }
+.opt b { font-weight: 600; }
+.opt small { color: var(--muted); font-size: 12.5px; }
+.slider-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.slider-row output { font-family: var(--font-display); font-size: 22px; font-weight: 800; }
+input[type="range"] { width: 100%; accent-color: var(--cool); }
+.hint { font-size: 12.5px; color: var(--muted); }
+.seg { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { font: inherit; font-weight: 600; padding: 9px 8px; border: 0; background: var(--panel); color: var(--fg); cursor: pointer; }
+.seg button small { display: block; font-weight: 400; font-size: 12px; color: var(--muted); }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--fg); color: var(--panel); }
+.seg button[aria-pressed="true"] small { color: var(--panel); opacity: .8; }
+.presets { display: grid; gap: 6px; }
+.preset { font: inherit; font-weight: 600; text-align: left; padding: 9px 12px; border: 1px dashed var(--muted); border-radius: 8px; background: transparent; color: var(--fg); cursor: pointer; }
+.preset small { display: block; font-weight: 400; font-size: 12px; color: var(--muted); }
+.preset:hover { border-style: solid; }
+
+/* Answer */
+.answer { display: grid; gap: 10px; }
+.verdict { justify-self: start; font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; padding: 4px 10px; border-radius: 99px; }
+.verdict.good { background: var(--cool-soft); color: var(--cool); }
+.verdict.mid { background: var(--warn-soft); color: var(--warn); }
+.verdict.bad { background: var(--heat-soft); color: var(--heat); }
+.answer p { font-family: var(--font-display); font-size: clamp(18px, 2.2vw, 22px); font-weight: 700; line-height: 1.4; max-width: 58ch; }
+
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; }
+@media (max-width: 520px) { .tiles { grid-template-columns: minmax(0, 1fr); } }
+.tile { border-top: 3px solid var(--cool); padding-top: 8px; display: grid; gap: 2px; align-content: start; min-width: 0; }
+.tile.cost { border-top-color: var(--heat); }
+.tile .v { font-family: var(--font-display); font-size: 26px; font-weight: 800; line-height: 1.15; }
+.tile .m { font-size: 13px; color: var(--muted); }
+
+.wait { display: grid; gap: 8px; }
+.track { position: relative; height: 34px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); overflow: hidden; }
+.zone-good { position: absolute; left: 0; top: 0; bottom: 0; width: 25%; background: var(--cool-soft); }
+.bar { position: absolute; left: 0; top: 9px; height: 16px; border-radius: 0 4px 4px 0; background: var(--heat); }
+.bar.good { background: var(--cool); }
+.ticks { position: relative; height: 16px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.ticks span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
+.ticks span:first-child { transform: none; }
+.ticks span:last-child { transform: translateX(-100%); }
+@media (prefers-reduced-motion: no-preference) { .bar { transition: width .25s ease; } }
+
+.vs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 520px) { .vs { grid-template-columns: 1fr; } }
+.card { border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 8px; }
+.card.cool-c { border-color: var(--cool); }
+.card h3 { font-size: 16px; }
+.card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 14px; }
+.card dt { color: var(--muted); }
+.card dd { margin: 0; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Saudi section */
+.saudi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.ksa { border-left: 3px solid var(--cool); padding: 4px 0 4px 14px; display: grid; gap: 4px; }
+.ksa.heat { border-left-color: var(--heat); }
+.ksa b { font-family: var(--font-display); font-size: 16px; }
+.ksa p { font-size: 14px; }
+.meter { height: 10px; border-radius: 5px; background: var(--bg); border: 1px solid var(--line); overflow: hidden; margin-top: 4px; }
+.meter span { display: block; height: 100%; background: var(--cool); min-width: 2px; }
+
+/* Details */
+details { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; }
+details summary { cursor: pointer; font-family: var(--font-display); font-weight: 700; font-size: 16px; }
+.assume { overflow-x: auto; margin-top: 12px; }
+.assume table { width: 100%; border-collapse: collapse; min-width: 600px; }
+.assume td, .assume th { padding: 8px; border-bottom: 1px solid var(--line); text-align: left; font-size: 14px; vertical-align: middle; }
+.assume th { font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.assume input, .adv input { font: inherit; font-family: var(--font-mono); width: 110px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); }
+.tag { font-family: var(--font-mono); font-size: 10.5px; padding: 1px 7px; border-radius: 99px; }
+.tag.s { background: var(--cool-soft); color: var(--cool); }
+.tag.a { background: var(--heat-soft); color: var(--heat); }
+.adv { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+.adv label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+
+/* Pages */
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.tabs a { font-weight: 600; text-decoration: none; color: var(--muted); padding: 7px 14px; border-radius: 99px; border: 1px solid transparent; }
+.tabs a:hover { color: var(--fg); border-color: var(--line); }
+.tabs a[aria-current="page"] { background: var(--fg); color: var(--panel); }
+.page { display: grid; gap: 20px; }
+.doc { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: clamp(18px, 3vw, 32px); display: grid; gap: 12px; max-width: 820px; }
+.doc .big { font-size: clamp(22px, 3vw, 28px); }
+.doc h3 { font-size: 17px; margin-top: 10px; }
+.doc p, .doc li { max-width: 68ch; font-size: 16px; }
+.doc ul, .doc ol { margin: 0; padding-left: 22px; display: grid; gap: 6px; }
+.two-ideas { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .two-ideas { grid-template-columns: 1fr; } }
+.idea-card { border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 4px; }
+.idea-card.cool-c { border-color: var(--cool); }
+.idea-card span { color: var(--muted); font-size: 14px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.cta { font-weight: 600; text-decoration: none; padding: 10px 18px; border-radius: 8px; background: var(--fg); color: var(--panel); border: 1px solid var(--fg); }
+.cta.ghost { background: transparent; color: var(--fg); }
+.steps { display: grid; gap: 10px; }
+.stepcard { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.stepcard .step { margin: 2px 0 0; }
+.stepcard p { font-size: 15px; color: var(--muted); }
+.pill { font-family: var(--font-mono); font-size: 11.5px; padding: 1px 8px; border-radius: 99px; }
+.pill.good { background: var(--cool-soft); color: var(--cool); }
+.pill.mid { background: var(--warn-soft); color: var(--warn); }
+.pill.bad { background: var(--heat-soft); color: var(--heat); }
+.gloss { margin: 0; display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 10px 20px; }
+@media (max-width: 560px) { .gloss { grid-template-columns: 1fr; gap: 2px; } .gloss dd { margin-bottom: 10px; } }
+.gloss dt { font-weight: 600; font-family: var(--font-display); }
+.gloss dd { margin: 0; color: var(--fg); font-size: 15px; }
+
+footer { color: var(--muted); font-size: 13px; display: grid; gap: 8px; }
+footer ol { margin: 0; padding-left: 20px; display: grid; gap: 3px; }
+.ai-note { border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; background: var(--panel); color: var(--fg); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">M3 Hackathon prototype · Riyadh, Saudi Arabia</div>
+    <h1>EcoPulse Riyadh</h1>
+    <p class="question">Riyadh's roofs soak up the sun all summer, and air conditioning fights back with oil-fired power. <b>What happens if we paint the roofs white, or cover them with plants? And who should pay?</b></p>
+    <ol class="how">
+      <li>Pick a neighbourhood</li>
+      <li>Choose white paint or plants</li>
+      <li>Slide how many roofs</li>
+      <li>Decide how much the government pays</li>
+    </ol>
+  </header>
+  <nav class="tabs" aria-label="Pages">
+    <a href="#start" data-page="start">Start here</a>
+    <a href="#tool" data-page="tool">Use the tool</a>
+    <a href="#how" data-page="how">How to use it</a>
+    <a href="#words" data-page="words">Words explained</a>
+  </nav>
+
+  <!-- PAGE: START HERE -->
+  <section class="page" id="page-start" data-page="start">
+    <div class="doc">
+      <h2 class="big">What is EcoPulse Riyadh?</h2>
+      <p>It's a free calculator that shows what happens when Riyadh changes its roofs to fight the heat.</p>
+
+      <h3>The problem</h3>
+      <ul>
+        <li>Riyadh is getting hotter. Its hottest surfaces reached <b>54.8 °C</b> in 2022.</li>
+        <li>Roofs soak up the sun all day, so buildings get hot inside.</li>
+        <li>People run air conditioning to cool down. In summer, that's about <b>70%</b> of the electricity used at home.</li>
+        <li>Much of Saudi Arabia's summer electricity comes from burning oil. That's oil that could be sold instead.</li>
+      </ul>
+
+      <h3>The idea</h3>
+      <p>Change the roofs. There are two ways to do it:</p>
+      <div class="two-ideas">
+        <div class="idea-card cool-c"><b>White reflective paint</b><span>Called a "cool roof". It bounces sunlight back to the sky, so the building stays cooler.</span></div>
+        <div class="idea-card"><b>Plants on the roof</b><span>Called a "green roof". The plants shade the roof, but they need watering.</span></div>
+      </div>
+
+      <h3>What the tool tells you</h3>
+      <p>Pick a plan, and EcoPulse answers three questions in plain words:</p>
+      <ol>
+        <li><b>How much does it help?</b> Cooler streets, less electricity, less CO₂.</li>
+        <li><b>What does it cost?</b> And how many years until owners earn their money back.</li>
+        <li><b>Who should pay?</b> Slide the government's share and watch the owner's wait get shorter.</li>
+      </ol>
+
+      <h3>Who it's for</h3>
+      <ul>
+        <li><b>City planners</b> deciding where to start and how much budget to ask for.</li>
+        <li><b>Building owners</b> asking "is this worth it for me?"</li>
+        <li><b>Students and the public</b> who want to understand the heat problem.</li>
+      </ul>
+
+      <h3>What I found</h3>
+      <ul>
+        <li><b>White paint beats plants in Riyadh.</b> It saves more electricity, costs about 6 times less, and needs no water.</li>
+        <li><b>Owners won't do it alone.</b> Electricity is cheap for homes, so owners wait about 28 years to earn the money back.</li>
+        <li><b>Government help changes everything.</b> If the city pays half, the wait drops to 14 years.</li>
+      </ul>
+
+      <div class="cta-row">
+        <a class="cta" href="#tool" data-page="tool">Try the tool</a>
+        <a class="cta ghost" href="#how" data-page="how">How to use it</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: THE TOOL -->
+  <section class="page" id="page-tool" data-page="tool" hidden>
+
+
+  <section class="context" aria-label="Why this matters">
+    <div class="ctx"><span class="eyebrow">Hottest surfaces, 2022</span><b>54.8 °C</b><span>up from 51.0 °C in 2018</span><span class="src"><a href="https://link.springer.com/doi/10.1007/s43995-023-00030-4" target="_blank" rel="noopener">Imam 2023</a></span></div>
+    <div class="ctx"><span class="eyebrow">Home power used for AC in summer</span><b>~70%</b><span>of residential electricity</span><span class="src"><a href="https://www.mdpi.com/1996-1073/12/1/87" target="_blank" rel="noopener">Alshahrani &amp; Boait 2019</a></span></div>
+    <div class="ctx"><span class="eyebrow">Crude burned for power, summer</span><b>0.9M bbl/day</b><span>at the July peak</span><span class="src"><a href="https://www.eia.gov/todayinEnergy/detail.php?id=18111" target="_blank" rel="noopener">US EIA 2014</a></span></div>
+  </section>
+
+  <div class="main">
+    <!-- CONTROLS -->
+    <section class="panel" aria-label="Your plan">
+      <fieldset>
+        <legend><span class="step">1</span>Where?</legend>
+        <div class="choice" id="zones"></div>
+        <span class="src">Heat ranking: <a href="https://isprs-archives.copernicus.org/articles/XLII-3-W2/9/2017/" target="_blank" rel="noopener">KSU satellite study</a></span>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="step">2</span>What goes on the roof?</legend>
+        <div class="choice">
+          <button type="button" class="opt" id="iv-cool" aria-pressed="true"><i class="cool"></i><b>White reflective paint</b><small>"Cool roof": bounces sunlight back to the sky</small></button>
+          <button type="button" class="opt" id="iv-green" aria-pressed="false"><i class="green"></i><b>Plants on the roof</b><small>"Green roof": shades the roof, needs watering</small></button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="step">3</span>How many roofs?</legend>
+        <div class="slider-row"><span class="hint">Share of roofs changed</span><output id="covOut" class="num">30%</output></div>
+        <input type="range" id="coverage" min="0" max="100" step="5" value="30" aria-label="Share of roofs changed">
+        <div class="seg" role="group" aria-label="Area">
+          <button type="button" id="sc-one" aria-pressed="true">1 km²<small>one neighbourhood</small></button>
+          <button type="button" id="sc-city" aria-pressed="false">All of Riyadh<small>455.6 km² of hot zones</small></button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="step">4</span>Who pays?</legend>
+        <div class="slider-row"><span class="hint">Government pays</span><output id="subOut" class="num">0%</output></div>
+        <input type="range" id="subsidy" min="0" max="100" step="10" value="0" aria-label="Share of the cost the government pays">
+        <span class="hint">Owners pay the rest. Watch how long they wait to earn it back.</span>
+      </fieldset>
+
+      <fieldset>
+        <legend>Or try a ready-made plan</legend>
+        <div class="presets">
+          <button type="button" class="preset" id="pre-hot">Hottest areas first<small>Industrial · white paint · 50% of roofs</small></button>
+          <button type="button" class="preset" id="pre-half">City pays half<small>Mid-size housing · white paint · 50% paid by government</small></button>
+          <button type="button" class="preset" id="pre-city">All of Riyadh<small>Every hot zone · white paint · 30% of roofs</small></button>
+        </div>
+      </fieldset>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="panel" aria-live="polite" aria-label="What happens">
+      <div class="answer">
+        <span class="verdict" id="verdict">—</span>
+        <p id="answer">—</p>
+      </div>
+
+      <div class="tiles">
+        <div class="tile"><span class="eyebrow">Cooler streets</span><span class="v num" id="tTemp">—</span><span class="m">drop in street air temperature (approx.)</span></div>
+        <div class="tile"><span class="eyebrow">Electricity saved</span><span class="v num" id="tKwh">—</span><span class="m" id="tKwhM">—</span></div>
+        <div class="tile"><span class="eyebrow">CO₂ cut</span><span class="v num" id="tCo2">—</span><span class="m">less fuel burned in power plants, every year</span></div>
+        <div class="tile cost"><span class="eyebrow">Total cost</span><span class="v num" id="tCost">—</span><span class="m" id="tCostM">—</span></div>
+      </div>
+
+      <div class="wait">
+        <h2>How long owners wait to earn their money back</h2>
+        <div class="track" aria-hidden="true"><div class="zone-good"></div><div class="bar" id="waitBar"></div></div>
+        <div class="ticks"><span style="left:0">0</span><span style="left:25%">10 yrs</span><span style="left:50%">20</span><span style="left:75%">30</span><span style="left:100%">40+ yrs</span></div>
+        <p class="hint">Shaded: under 10 years, a deal most owners would take.</p>
+        <p class="hint" id="waitText">—</p>
+      </div>
+
+      <div>
+        <h2 style="margin-bottom:10px">White paint vs plants, same plan</h2>
+        <div class="vs">
+          <div class="card cool-c"><h3>White reflective paint</h3><dl>
+            <dt>Cost</dt><dd id="cCost">—</dd>
+            <dt>Electricity saved / yr</dt><dd id="cKwh">—</dd>
+            <dt>Owners wait</dt><dd id="cWait">—</dd>
+            <dt>Needs water</dt><dd>No</dd></dl></div>
+          <div class="card"><h3>Plants on the roof</h3><dl>
+            <dt>Cost</dt><dd id="gCost">—</dd>
+            <dt>Electricity saved / yr</dt><dd id="gKwh">—</dd>
+            <dt>Owners wait</dt><dd id="gWait">—</dd>
+            <dt>Needs water</dt><dd>Yes, desalinated</dd></dl></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SAUDI ARABIA -->
+  <section class="panel" aria-label="What this means for Saudi Arabia">
+    <h2>What this means for Saudi Arabia</h2>
+    <div class="saudi-grid">
+      <div class="ksa">
+        <b>Saudi Green Initiative</b>
+        <p>Goal: cut 278 million tonnes of CO₂ a year by 2030. <span id="sgiText">—</span></p>
+        <div class="meter" aria-hidden="true"><span id="sgiBar"></span></div>
+        <span class="src"><a href="https://saudipedia.com/en/what-is-saudi-green-initiative" target="_blank" rel="noopener">Saudipedia: Saudi Green Initiative</a></span>
+      </div>
+      <div class="ksa heat">
+        <b>Less oil burned at home</b>
+        <p>In summer, Saudi Arabia has burned up to 0.9 million barrels of crude a day for power. Every kWh of air conditioning avoided is fuel that can be exported instead.</p>
+        <span class="src"><a href="https://www.eia.gov/todayinEnergy/detail.php?id=18111" target="_blank" rel="noopener">US EIA, 2014</a></span>
+      </div>
+      <div class="ksa heat">
+        <b>Lower summer peaks</b>
+        <p>Summer cooling can push grid demand up by as much as 40%. Cool roofs work hardest on the hottest afternoons, exactly when the grid is most stretched.</p>
+        <span class="src"><a href="https://www.climatescorecard.org/2023/01/saudi-electricity-company/" target="_blank" rel="noopener">Climate Scorecard</a></span>
+      </div>
+      <div class="ksa">
+        <b>Saves water, too</b>
+        <p>White paint needs no irrigation. Plants on roofs do, and Riyadh's water is desalinated and piped in from the coast.</p>
+      </div>
+      <div class="ksa">
+        <b>Who can make it happen</b>
+        <p>The Saudi Building Code could require reflective roofs on new buildings. Amanat Al-Riyadh could start with the hottest districts. The electricity company could offer owners a rebate.</p>
+      </div>
+    </div>
+  </section>
+
+  <details>
+    <summary>Where the numbers come from (and change them)</summary>
+    <div class="adv">
+      <label>Area for "1 km²" view (km²)<input type="number" id="area" min="0.1" step="0.1" value="1"></label>
+      <label>Land covered by roofs (%)<input type="number" id="roofShare" min="1" max="90" step="1" value="35"></label>
+    </div>
+    <div class="assume">
+      <table>
+        <thead><tr><th>Input</th><th>Value</th><th>Type</th><th>Source / note</th></tr></thead>
+        <tbody id="assumeBody"></tbody>
+      </table>
+    </div>
+    <p class="hint" style="margin-top:10px">This is a screening tool for comparing options, not an engineering design. Results scale linearly from a published simulation study.</p>
+  </details>
+
+
+  </section>
+
+  <!-- PAGE: HOW TO USE -->
+  <section class="page" id="page-how" data-page="how" hidden>
+    <div class="doc">
+      <h2 class="big">How to use it</h2>
+      <p>It takes about one minute. Make four choices on the left, then read the answer on the right.</p>
+
+      <div class="steps">
+        <div class="stepcard"><span class="step">1</span><div><b>Where?</b><p>Pick a type of neighbourhood. Industrial areas are the hottest in Riyadh, so they're a good place to start.</p></div></div>
+        <div class="stepcard"><span class="step">2</span><div><b>What goes on the roof?</b><p>Choose white reflective paint or plants. You can switch any time and compare.</p></div></div>
+        <div class="stepcard"><span class="step">3</span><div><b>How many roofs?</b><p>Slide to choose how many roofs change, from 0% to 100%. Then pick one neighbourhood (1 km²) or all of Riyadh's hot zones.</p></div></div>
+        <div class="stepcard"><span class="step">4</span><div><b>Who pays?</b><p>Slide how much of the cost the government covers. Owners pay the rest.</p></div></div>
+      </div>
+
+      <h3>Reading the answer</h3>
+      <ul>
+        <li><b>The coloured label</b> is the verdict for owners. <span class="pill good">Green</span> means a good deal (under 10 years to earn the money back). <span class="pill mid">Yellow</span> means borderline (10 to 20 years). <span class="pill bad">Red</span> means owners won't do it alone (over 20 years).</li>
+        <li><b>The big sentence</b> sums up your plan: what it saves, what it costs, and how long owners wait.</li>
+        <li><b>The four boxes</b> show cooler streets, electricity saved, CO₂ cut and total cost.</li>
+        <li><b>The waiting bar</b> shows how many years owners wait. The shaded part is under 10 years, which is the goal.</li>
+        <li><b>Paint vs plants</b> puts both options side by side for the same plan.</li>
+        <li><b>What this means for Saudi Arabia</b> links your plan to national goals, like the Saudi Green Initiative.</li>
+      </ul>
+
+      <h3>Three things to try</h3>
+      <ol>
+        <li>Click <b>Hottest areas first</b>. Then move <b>Government pays</b> until the bar turns green. How much help do owners need?</li>
+        <li>Switch from white paint to plants. Watch the cost jump and the wait go past 100 years.</li>
+        <li>Click <b>All of Riyadh</b>. See how much CO₂ the whole city could cut each year.</li>
+      </ol>
+
+      <h3>Changing the numbers</h3>
+      <p>At the bottom of the tool, open <b>Where the numbers come from</b>. Every number is labelled <span class="tag s">sourced</span> (from published research) or <span class="tag a">my estimate</span>. If you have better data, like a real electricity bill or a contractor's price, type it in and every result updates.</p>
+
+      <div class="cta-row"><a class="cta" href="#tool" data-page="tool">Open the tool</a></div>
+    </div>
+  </section>
+
+  <!-- PAGE: WORDS EXPLAINED -->
+  <section class="page" id="page-words" data-page="words" hidden>
+    <div class="doc">
+      <h2 class="big">Words explained</h2>
+      <p>Every word on the tool, in plain language.</p>
+      <dl class="gloss">
+        <dt>Cool roof</dt><dd>A roof painted with white reflective paint. It bounces sunlight away instead of soaking it up.</dd>
+        <dt>Green roof</dt><dd>A roof covered with soil and plants. The plants shade the roof, but they need water.</dd>
+        <dt>kWh (kilowatt-hour)</dt><dd>The unit on your electricity bill. One kWh runs a 1,000-watt air conditioner for one hour.</dd>
+        <dt>CO₂</dt><dd>Carbon dioxide, the main gas that warms the planet. Power plants release it when they burn oil or gas.</dd>
+        <dt>Tonne (t)</dt><dd>1,000 kilograms.</dd>
+        <dt>SAR per kWh</dt><dd>The price of electricity. Saudi homes pay 0.18 SAR for each kWh in the first 6,000 kWh of a month.</dd>
+        <dt>Owners wait (payback)</dt><dd>How many years of lower power bills it takes for owners to earn back what they paid.</dd>
+        <dt>Government pays</dt><dd>The share of the cost the government covers, for example through a grant. Owners pay the rest.</dd>
+        <dt>Heat island</dt><dd>A city area that is hotter than its surroundings because roads and roofs trap heat. Riyadh's covered 455.6 km² in 2022.</dd>
+        <dt>Surface temperature</dt><dd>How hot the ground or a roof is, measured by satellites. It is much higher than the air temperature.</dd>
+        <dt>Street air temperature</dt><dd>How hot the air feels where people walk. The tool shows how much it drops, approximately.</dd>
+        <dt>Saudi Green Initiative</dt><dd>Saudi Arabia's national plan to cut 278 million tonnes of CO₂ a year by 2030.</dd>
+        <dt>Desalinated water</dt><dd>Seawater made drinkable by removing the salt. It's costly to make, and Riyadh gets much of its water this way.</dd>
+        <dt>Sourced / my estimate</dt><dd>"Sourced" numbers come from published studies. "My estimate" numbers are my best guesses, which you can change.</dd>
+      </dl>
+      <div class="cta-row"><a class="cta" href="#tool" data-page="tool">Open the tool</a></div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="ai-note">Built by Razi Moayed Money (Industrial Engineering, Prince Sultan University) with the aid of AI (Claude) for research, coding and writing. Every number below comes from a listed source or is marked as my estimate.</p>
+    <div class="eyebrow">Sources</div>
+    <ol>
+      <li>Imam, A. (2023). Examining the impact of Green Riyadh Project on alleviating urban heat island effects. <a href="https://link.springer.com/doi/10.1007/s43995-023-00030-4" target="_blank" rel="noopener">J. Umm Al-Qura Univ. Eng. Archit.</a></li>
+      <li>Land use and land surface temperature in Riyadh, 1985–2015 (KSU). <a href="https://isprs-archives.copernicus.org/articles/XLII-3-W2/9/2017/" target="_blank" rel="noopener">ISPRS Archives XLII-3/W2, 2017</a></li>
+      <li>Elnabawi, M. H. &amp; Saber, E. (2023). Cool and green roof strategies in a hot arid climate. <a href="https://research.uaeu.ac.ae/en/publications/a-numerical-study-of-cool-and-green-roof-strategies-on-indoor-ene/" target="_blank" rel="noopener">J. Building Performance Simulation 16(1)</a></li>
+      <li>Alshahrani, J. &amp; Boait, P. (2019). Reducing high energy demand associated with air-conditioning in Saudi Arabia. <a href="https://www.mdpi.com/1996-1073/12/1/87" target="_blank" rel="noopener">Energies 12(1), 87</a></li>
+      <li>Saudi Electricity Company emissions intensity and summer demand. <a href="https://www.climatescorecard.org/2023/01/saudi-electricity-company/" target="_blank" rel="noopener">Climate Scorecard</a></li>
+      <li>Saudi Arabia uses largest amount of crude oil for power generation since 2010. <a href="https://www.eia.gov/todayinEnergy/detail.php?id=18111" target="_blank" rel="noopener">US EIA, 2014</a></li>
+      <li>What is Saudi Green Initiative? <a href="https://saudipedia.com/en/what-is-saudi-green-initiative" target="_blank" rel="noopener">Saudipedia</a></li>
+      <li>Saudi electricity tariff schedule. <a href="https://rise.esmap.org/data/files/library/saudi-arabia/Renewable%20Energy/Saudi%20Arabia%20Tariff%20Schedule_2022.pdf" target="_blank" rel="noopener">ESMAP RISE, 2022</a></li>
+    </ol>
+  </footer>
+</div>
+
+<script>
+// ---------- 1. Neighbourhoods ----------
+// heat: what the KSU satellite study says. roofShare: MY estimate of land covered by roofs.
+const ZONES = [
+  { id: "industrial", name: "Industrial area",  note: "Hottest type of land in Riyadh", level: "hot", roofShare: 50 },
+  { id: "high",       name: "Dense apartments", note: "Tall, tightly packed buildings",  level: "mid", roofShare: 45 },
+  { id: "medium",     name: "Mid-size housing", note: "Typical Riyadh neighbourhood",    level: "mid", roofShare: 35 },
+  { id: "low",        name: "Villas",           note: "Spread-out houses with yards",    level: "mid", roofShare: 25 }
+];
+const CITY_KM2 = 455.6; // Riyadh heat-island area, 2022 (Imam 2023)
+
+// ---------- 2. Inputs: every number starts here. kind "s" = sourced, "a" = my assumption ----------
+const INPUTS = {
+  coolSave:   { label: "Cooling energy cut by white paint",        value: 10,    unit: "%",          kind: "s", note: "Elnabawi & Saber 2023, hot arid climate" },
+  greenSave:  { label: "Cooling energy cut by plants",             value: 7.5,   unit: "%",          kind: "s", note: "Elnabawi & Saber 2023" },
+  coolTemp:   { label: "Street air cooling, white paint, all roofs", value: 0.8, unit: "°C",         kind: "s", note: "Elnabawi & Saber 2023; I scale it with the share of roofs" },
+  greenTemp:  { label: "Street air cooling, plants, all roofs",    value: 0.6,   unit: "°C",         kind: "s", note: "Elnabawi & Saber 2023; same scaling" },
+  coolingUse: { label: "Cooling electricity per m² of roof",       value: 120,   unit: "kWh/m²/yr",  kind: "a", note: "My estimate. Replace with real bills" },
+  tariff:     { label: "Household electricity price",              value: 0.18,  unit: "SAR/kWh",    kind: "s", note: "SEC residential tariff, first 6,000 kWh/month" },
+  grid:       { label: "Grid emissions",                           value: 0.569, unit: "kg CO₂/kWh", kind: "s", note: "Saudi Electricity Company, 2021" },
+  coolCost:   { label: "White paint cost",                         value: 60,    unit: "SAR/m²",     kind: "a", note: "My estimate. Get contractor quotes" },
+  greenCost:  { label: "Plants on roof cost",                      value: 350,   unit: "SAR/m²",     kind: "a", note: "My estimate. Get contractor quotes" }
+};
+const SGI_TONNES = 278e6; // Saudi Green Initiative: cut 278 million t CO2 a year by 2030
+
+const state = { zone: "medium", iv: "cool", city: false };
+const $ = (id) => document.getElementById(id);
+
+// ---------- 3. The model: one roof plan in, all results out ----------
+function model(roofM2, coverage, iv, subsidy) {
+  const v = (k) => INPUTS[k].value;
+  const treated = roofM2 * coverage;
+  const kwh = treated * v("coolingUse") * (iv === "cool" ? v("coolSave") : v("greenSave")) / 100;
+  const sar = kwh * v("tariff");
+  const co2 = kwh * v("grid") / 1000;
+  const cost = treated * (iv === "cool" ? v("coolCost") : v("greenCost"));
+  const gov = cost * subsidy, owner = cost - gov;
+  const wait = owner <= 0 ? 0 : sar > 0 ? owner / sar : Infinity; // years for owners to earn back their share
+  const temp = (iv === "cool" ? v("coolTemp") : v("greenTemp")) * coverage;
+  return { treated, kwh, sar, co2, cost, gov, owner, wait, temp };
+}
+
+// ---------- 4. Plain-language formatting ----------
+const F = {
+  kwh: (x) => x >= 1e9 ? `${Number((x / 1e9).toPrecision(3))} billion kWh` : x >= 1e6 ? `${Number((x / 1e6).toPrecision(3))} million kWh` : `${Math.round(x).toLocaleString("en-US")} kWh`,
+  sar: (x) => x >= 1e9 ? `${Number((x / 1e9).toPrecision(3))} billion SAR` : x >= 1e6 ? `${Number((x / 1e6).toPrecision(3))} million SAR` : `${Math.round(x).toLocaleString("en-US")} SAR`,
+  t: (x) => `${(x >= 1e4 ? Number(x.toPrecision(3)) : Math.round(x)).toLocaleString("en-US")} t`,
+  wait: (w) => w === 0 ? "nothing to pay" : !isFinite(w) || w > 100 ? "100+ years" : `${Math.round(w)} years`
+};
+
+function inputs() {
+  const area = state.city ? CITY_KM2 : Math.max(0, Number($("area").value) || 0);
+  const share = Math.min(90, Math.max(0, Number($("roofShare").value) || 0));
+  return {
+    area, share,
+    coverage: Number($("coverage").value) / 100,
+    subsidy: Number($("subsidy").value) / 100,
+    roofM2: area * 1e6 * share / 100
+  };
+}
+
+// ---------- 5. Draw everything ----------
+function render() {
+  const s = inputs();
+  const zone = ZONES.find((z) => z.id === state.zone);
+  const cur = model(s.roofM2, s.coverage, state.iv, s.subsidy);
+  const cool = model(s.roofM2, s.coverage, "cool", s.subsidy);
+  const green = model(s.roofM2, s.coverage, "green", s.subsidy);
+  const pct = Math.round(s.coverage * 100), sub = Math.round(s.subsidy * 100);
+
+  $("covOut").textContent = pct + "%";
+  $("subOut").textContent = sub + "%";
+
+  // Verdict + one-sentence answer
+  const v = $("verdict");
+  if (pct === 0) {
+    v.textContent = "No change yet"; v.className = "verdict mid";
+    $("answer").textContent = "Move the slider in step 3 to change some roofs.";
+  } else {
+    const good = cur.wait <= 10, mid = cur.wait <= 20;
+    v.textContent = good ? "Good deal for owners" : mid ? "Borderline for owners" : "Owners won't do it alone";
+    v.className = "verdict " + (good ? "good" : mid ? "mid" : "bad");
+    const verb = state.iv === "cool" ? "Painting" : "Planting";
+    const where = state.city ? `across all of Riyadh's hot zones (${zone.name.toLowerCase()} type)` : `in one km² of ${zone.name.toLowerCase()}`;
+    let text = `${verb} ${pct}% of roofs ${where} saves ${F.kwh(cur.kwh)} and ${F.t(cur.co2)} of CO₂ every year. `;
+    if (sub === 0) text += `It costs ${F.sar(cur.cost)}, and owners would wait ${F.wait(cur.wait)} to earn it back.`;
+    else if (sub === 100) text += `It costs ${F.sar(cur.cost)}, and the government pays all of it.`;
+    else text += `If the government pays ${sub}% (${F.sar(cur.gov)}), owners earn their share back in ${F.wait(cur.wait)}.`;
+    $("answer").textContent = text;
+  }
+
+  // Tiles
+  $("tTemp").textContent = cur.temp > 0 ? "−" + cur.temp.toFixed(2) + " °C" : "0 °C";
+  $("tKwh").textContent = F.kwh(cur.kwh);
+  $("tKwhM").textContent = `about ${F.sar(cur.sar)} off power bills each year`;
+  $("tCo2").textContent = F.t(cur.co2);
+  $("tCost").textContent = F.sar(cur.cost);
+  $("tCostM").textContent = sub === 0 ? "all paid by owners" : `government ${F.sar(cur.gov)} · owners ${F.sar(cur.owner)}`;
+
+  // Waiting bar: 0–40 years, first 10 years shaded as a good deal
+  const w = isFinite(cur.wait) ? cur.wait : 40;
+  const bar = $("waitBar");
+  bar.style.width = (pct === 0 ? 0 : Math.min(40, w) / 40 * 100) + "%";
+  bar.className = "bar" + (w <= 10 ? " good" : "");
+  $("waitText").textContent = pct === 0 ? "" :
+    cur.wait === 0 ? "The government pays everything, so owners wait nothing." :
+    cur.wait <= 10 ? `Owners earn their money back in ${F.wait(cur.wait)}. Most people would say yes to that.` :
+    `Owners wait ${F.wait(cur.wait)}. Try raising "Government pays" in step 4 to bring it under 10 years.`;
+
+  // White paint vs plants
+  $("cCost").textContent = F.sar(cool.cost); $("gCost").textContent = F.sar(green.cost);
+  $("cKwh").textContent = F.kwh(cool.kwh);   $("gKwh").textContent = F.kwh(green.kwh);
+  $("cWait").textContent = F.wait(cool.wait); $("gWait").textContent = F.wait(green.wait);
+
+  // Saudi Green Initiative share
+  const share = cur.co2 / SGI_TONNES * 100;
+  $("sgiText").textContent = pct === 0 ? "" :
+    `This plan cuts ${F.t(cur.co2)} a year, which is ${share < 0.01 ? "under 0.01" : share.toFixed(share < 1 ? 2 : 1)}% of that goal.` +
+    (state.city ? " One city and one simple measure, with no new power plants." : ' Tap "All of Riyadh" in step 3 to see the city-wide effect.');
+  $("sgiBar").style.width = Math.min(100, share) + "%";
+}
+
+// ---------- 6. Controls ----------
+function drawZones() {
+  const box = $("zones"); box.textContent = "";
+  for (const z of ZONES) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "opt"; b.id = "zone-" + z.id;
+    b.setAttribute("aria-pressed", String(state.zone === z.id));
+    const i = document.createElement("i"); i.className = z.level;
+    const t = document.createElement("b"); t.textContent = z.name;
+    const sm = document.createElement("small"); sm.textContent = z.note;
+    b.append(i, t, sm);
+    b.addEventListener("click", () => { state.zone = z.id; $("roofShare").value = z.roofShare; drawZones(); render(); });
+    box.append(b);
+  }
+}
+
+function drawInputs() {
+  const body = $("assumeBody");
+  for (const [key, inp] of Object.entries(INPUTS)) {
+    const tr = document.createElement("tr");
+    const a = document.createElement("td"); a.textContent = inp.label;
+    const b = document.createElement("td");
+    const field = document.createElement("input");
+    field.type = "number"; field.id = "in-" + key; field.step = "any"; field.min = "0"; field.value = inp.value;
+    field.setAttribute("aria-label", inp.label);
+    field.addEventListener("input", () => { const n = Number(field.value); if (isFinite(n) && n >= 0) { inp.value = n; render(); } });
+    const u = document.createElement("span"); u.className = "src"; u.textContent = " " + inp.unit;
+    b.append(field, u);
+    const c = document.createElement("td");
+    const tag = document.createElement("span"); tag.className = "tag " + inp.kind; tag.textContent = inp.kind === "s" ? "sourced" : "my estimate";
+    c.append(tag);
+    const d = document.createElement("td"); d.className = "src"; d.textContent = inp.note;
+    tr.append(a, b, c, d); body.append(tr);
+  }
+}
+
+function setIv(iv) {
+  state.iv = iv;
+  $("iv-cool").setAttribute("aria-pressed", String(iv === "cool"));
+  $("iv-green").setAttribute("aria-pressed", String(iv === "green"));
+}
+function setCity(city) {
+  state.city = city;
+  $("sc-one").setAttribute("aria-pressed", String(!city));
+  $("sc-city").setAttribute("aria-pressed", String(city));
+}
+function preset(zoneId, iv, coverage, subsidy, city) {
+  state.zone = zoneId; $("roofShare").value = ZONES.find((z) => z.id === zoneId).roofShare;
+  setIv(iv); setCity(city);
+  $("coverage").value = coverage; $("subsidy").value = subsidy;
+  drawZones(); render();
+}
+
+$("iv-cool").addEventListener("click", () => { setIv("cool"); render(); });
+$("iv-green").addEventListener("click", () => { setIv("green"); render(); });
+$("sc-one").addEventListener("click", () => { setCity(false); render(); });
+$("sc-city").addEventListener("click", () => { setCity(true); render(); });
+for (const id of ["coverage", "subsidy", "area", "roofShare"]) $(id).addEventListener("input", render);
+$("pre-hot").addEventListener("click", () => preset("industrial", "cool", 50, 0, false));
+$("pre-half").addEventListener("click", () => preset("medium", "cool", 30, 50, false));
+$("pre-city").addEventListener("click", () => preset("medium", "cool", 30, 0, true));
+
+// ---------- 7. Pages: Start here / Use the tool / How to use it / Words explained ----------
+const PAGES = ["start", "tool", "how", "words"];
+function showPage(name, scroll) {
+  if (!PAGES.includes(name)) name = "start";
+  for (const pg of document.querySelectorAll(".page")) pg.hidden = pg.dataset.page !== name;
+  for (const a of document.querySelectorAll(".tabs a")) {
+    if (a.dataset.page === name) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  }
+  if (scroll) window.scrollTo(0, 0);
+}
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("a[data-page]");
+  if (!a) return;
+  e.preventDefault();
+  try { history.replaceState(null, "", "#" + a.dataset.page); } catch (err) {}
+  showPage(a.dataset.page, true);
+});
+window.addEventListener("hashchange", () => showPage(location.hash.slice(1), true));
+showPage(location.hash.slice(1), false);
+
+drawZones();
+drawInputs();
+render();
+</script>
+</body></html>
